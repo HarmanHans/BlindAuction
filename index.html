@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Bids</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="settings-form" class="form-container">
+        <h2>Setup Your Auction</h2>
+        <form id="auction-settings">
+            <label for="league-size">League Size:</label>
+            <select id="league-size" required>
+                <option value="">Select League Size</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+            </select>
+
+            <label for="live-players">Players in League:</label>
+            <select id="live-players" required>
+                <option value="">Select Participant Amount</option>
+            </select>
+            <button type="submit">Start Auction</button>
+        </form>
+    </div>
+
+    <div id="team-selections" class="team-selections">
+        <div id="toggle-container">
+            <span id="show-roster-label">Show Roster</span>
+            <label class="switch">
+                <input type="checkbox" id="toggle-switch">
+                <span class="slider round"></span>
+            </label>
+            <span id="show-stats-label">Show Stats</span>
+        </div>
+
+        <div id="roster-container">
+            <table id="roster-table">
+                <thead>
+                    <tr id="table-header"></tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+        <div id="stats-container" style="display: none;">
+            <table id="cumulative-table">
+                <thead>
+                    <tr id="stats-table-header"></tr>
+                </thead>
+                <tbody id="stats-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container hidden" id="auction-interface">
+        <div id="nominee-display" class="nominee-display">
+            <div id="timer" class="timer">
+                <p></p>
+            </div>
+            <div id="current-participant" class="current-participant"></div>
+        </div>
+        <div id="nominated-player-display" class="nominated-player-display">
+            <h1></h1>
+            <p></p>
+            <div id="bidding-display" class="bidding-display">
+                <input type="number" id="bid-input" value="1" min="0" />
+                <button id="submit-bid">Submit</button>
+            </div>
+        </div>
+        <div id="draft-notification" class="draft-notification">
+            Draft starting soon
+        </div>
+        <div id="player-cards" class="player-cards"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
