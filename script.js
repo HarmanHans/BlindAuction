@@ -15,20 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(players => {
             dataset = players;
-            const playerCardsContainer = document.getElementById('player-cards');
+            const playerTableBody = document.getElementById('player-table-body');
             players.forEach(player => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <button class=nominate-button data-player-id="${player.id}">Nominate</button>
-                    <h2>${player.player}</h2>
-                    <p>PPG: ${player.ppg}</p>
-                    <p>APG: ${player.apg}</p>
-                    <p>RPG: ${player.rpg}</p>
-                    <p>Team: ${player.team}</p>
-                    <p>Pos: ${player.pos}</p>
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><button class="nominate-button" data-player-id="${player.id}">+</button></td>
+                    <td>${player.player}</td>
+                    <td>${player.pos}</td>
+                    <td>${player.team}</td>
+                    <td>${player.ppg}</td>
+                    <td>${player.apg}</td>
+                    <td>${player.rpg}</td>
+                    <td>${player.fg_pct}</td>
+                    <td>${player.ft_pct}</td>
+                    <td>${player.bpg}</td>
+                    <td>${player.spg}</td>
+                    <td>${player.tos}</td>
                 `;
-                playerCardsContainer.appendChild(card);
+                playerTableBody.appendChild(row);
             });
         })
         .catch(error => console.error('Error fetching player data:', error));
@@ -37,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const NOMINATION_TIME = 20;
     const BIDDING_TIME = 20;
     const TOTAL_BUDGET = 200;
+    const AI_WAIT = 0.4;
     const leagueSizeSelect = document.getElementById('league-size');
     const livePlayersSelect = document.getElementById('live-players');
     let leagueSize = 0;
@@ -137,23 +142,19 @@ document.addEventListener("DOMContentLoaded", () => {
             this.cumulativeStats.ft_pct = this.calculatePct(this.otherStats.ftm, this.otherStats.fta);
         }
 
-
         calculateMakes(attempts, pct, key) {
             if (pct != null) {
                 this.otherStats[key] += pct * (attempts || 0) / 100;
             }
         }
 
-
         calculatePct(makes, attempts) {
             return attempts > 0 ? (makes / attempts) * 100 : 0;
         }
 
-
         adjustBudget() {
             return this.maxBid;
         }
-
 
         placeBid(amount) {
             if (amount <= this.maxBid) {
@@ -162,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             return false;
         }
-
 
         resetBid() {
             this.currentBid = 0;
@@ -225,9 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const total = leagueSize * ROSTER_SIZE;
 
 
-        document.getElementById('settings-form').classList.add('hidden');
-        document.getElementById('auction-interface').classList.remove('hidden');
-
+        document.getElementById('settings-form').classList.add('is-hidden');
+        document.getElementById('auction-interface').classList.remove('is-hidden');
 
         const participants = [];
         const realParticipants = Array.from({ length: realPlayersCount }, (_, i) => (new Participant(`Player ${i + 1}`)));
@@ -446,11 +445,9 @@ document.addEventListener("DOMContentLoaded", () => {
         sortedParticipants.forEach(team => {
             team.h2hPoints = 0;
 
-
             sortedParticipants.forEach(opponent => {
                 if (team !== opponent) {
                     let wins = 0;
-
 
                     const categories = ['fg_pct', 'ft_pct', 'ppg', 'apg', 'rpg', 'three_p', 'spg', 'bpg', 'tos'];
                     categories.forEach(category => {
@@ -459,20 +456,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     });
 
-
                     team.h2hPoints += wins;
                 }
             });
         });
 
-
         sortedParticipants.sort((a, b) => b.h2hPoints - a.h2hPoints);
-
-
         sortedParticipants.forEach((participant, index) => {
             participant.rank = index + 1;
         });
-
 
         return sortedParticipants;
     }
@@ -495,8 +487,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const tableBody = document.getElementById('table-body');
         const tableHeader = document.getElementById('table-header');
 
-
-
+        let fontSize;
+        if (leagueSize <= 7) {
+            fontSize = '1.2em';
+        } else if (leagueSize <= 10) {
+            fontSize = '1em';
+        } else {
+            fontSize = '0.8em';
+        }
 
         participants.forEach((participant, participantIndex) => {
             const th = tableHeader.children[participantIndex];
@@ -505,7 +503,36 @@ document.addEventListener("DOMContentLoaded", () => {
             participant.roster.forEach((playerData, rowIndex) => {
                 if (playerData) {
                     const td = tableBody.rows[rowIndex].cells[participantIndex];
-                    td.innerText = `${playerData.player.player} $${playerData.bid}`;
+                    const playerName = playerData.player.player.split(" ");
+                    const isLargeLeague = leagueSize >= 10;
+                    td.innerHTML = `
+                    <div>
+                        <strong>${isLargeLeague ? playerName[0] : playerData.player.player}</strong><br>
+                        ${isLargeLeague ? `<span>${playerName[1]}</span><br>` : ''}
+                        <span>$${playerData.bid}</span> - <span>${playerData.player.pos}</span>
+                    </div>`;
+
+                    td.style.fontSize = fontSize;
+
+                    switch (playerData.player.pos) {
+                        case 'PG':
+                            td.style.backgroundColor = '#3e6921'; // Green
+                            break;
+                        case 'SG':
+                            td.style.backgroundColor = '#497572'; // Deep Turquoise
+                            break;
+                        case 'SF':
+                            td.style.backgroundColor = '#990005'; // Red
+                            break;
+                        case 'PF':
+                            td.style.backgroundColor = '#494980'; // Purple
+                            break;
+                        case 'C':
+                        td.style.backgroundColor = '#DC582A'; // Orange
+                        break;
+                        default:
+                            td.style.backgroundColor = '#1f1f1f'; // Default
+                    }
                 }
             })
         })
@@ -534,11 +561,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function waitForNomination(isAi) {
         return new Promise((resolve) => {
-            const playerCardsContainer = document.getElementById('player-cards');
+            const playerTableBody = document.getElementById('player-table-body');
 
             if (isAi) {
                 clearInterval(timer);
-                resolve(null);
+                setTimeout(() => {
+                    resolve(null);
+                }, AI_WAIT * 1000);
                 return;
             }
 
@@ -547,12 +576,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     const playerId = Number(event.target.getAttribute('data-player-id'));
                     handleNomination(playerId);
                     resolve(playerId);
-                    playerCardsContainer.removeEventListener('click', nominationHandler);
+                    playerTableBody.removeEventListener('click', nominationHandler);
                     clearInterval(timer);
                 }
             };
 
-            playerCardsContainer.addEventListener('click', nominationHandler);
+            playerTableBody.addEventListener('click', nominationHandler);
         });
     }
 
@@ -569,42 +598,42 @@ document.addEventListener("DOMContentLoaded", () => {
      * @returns {number} - The ID of the nominated player.
      */
     function handleNomination(playerId) {
+        const playerStatsTableBody = document.getElementById('player-table-body');
         if (playerId === null) {
-            const playerCardsContainer = document.getElementById('player-cards');
-            const topCard = pickTopCard(playerCardsContainer);
-            playerId = Number(topCard.getAttribute('data-player-id'));
+            const firstVisibleRow = Array.from(playerStatsTableBody.getElementsByTagName('tr'))
+                .find(row => row.style.display !== 'none');
+            
+            if (firstVisibleRow) {
+                playerId = Number(firstVisibleRow.querySelector('.nominate-button').getAttribute('data-player-id'));
+            }
         }
-
-        const nominatedPlayer = dataset.find(dataset => dataset.id === playerId);
-        const heading = document.querySelector('.nominated-player-display h1');
-        heading.innerText = `${nominatedPlayer.player} | ${nominatedPlayer.team}`;
-        const positions = document.querySelector('.nominated-player-display p');
-        positions.innerText = nominatedPlayer.pos;
-
-        const playerCardsContainer = document.getElementById('player-cards');
-        const card = Array.from(playerCardsContainer.getElementsByClassName('nominate-button'))
-        .find(button => Number(button.getAttribute('data-player-id')) === playerId)
-        .closest('.card');
-
-        if (card) {
-            card.style.display = 'none';
+    
+        const nominatedPlayer = dataset.find(player => player.id === playerId);
+        const heading = document.querySelector('#basic-info h1');
+        heading.innerText = nominatedPlayer.player;
+        const positions = document.querySelector('.basic-info p');
+        positions.innerHTML = `<em>${nominatedPlayer.team}</em> - <em>${nominatedPlayer.pos}</em>`;
+        const last = document.querySelector('.last-year-stats');
+        last.innerHTML = `
+            <p><strong>PPG:</strong> ${nominatedPlayer.ppg}</p>
+            <p><strong>APG:</strong> ${nominatedPlayer.apg}</p>
+            <p><strong>RPG:</strong> ${nominatedPlayer.rpg}</p>
+            <p><strong>FG:</strong> ${nominatedPlayer.fg_pct}</p>
+            <p><strong>FT:</strong> ${nominatedPlayer.ft_pct}</p>
+            <p><strong>3PG:</strong> ${nominatedPlayer.three_p}</p>
+            <p><strong>BPG:</strong> ${nominatedPlayer.bpg}</p>
+            <p><strong>SPG:</strong> ${nominatedPlayer.spg}</p>
+            <p><strong>TOs:</strong> ${nominatedPlayer.tos}</p>`;
+    
+        const rowToHide = Array.from(playerStatsTableBody.getElementsByTagName('tr'))
+            .find(row => Number(row.querySelector('.nominate-button').getAttribute('data-player-id')) === playerId);
+    
+        if (rowToHide) {
+            rowToHide.style.display = 'none';
         }
-
+    
         return playerId;
     }
-
-    function pickTopCard(playerCardsContainer) {
-        const cards = playerCardsContainer.querySelectorAll('.card');
-            let topVisibleCard = null;
-            for (let card of cards) {
-                if (card.style.display != 'none') {
-                    topVisibleCard = card;
-                    break;
-                }
-            }
-            return topVisibleCard.querySelector('.nominate-button');
-    }
-
 
     function startTimer(seconds) {
         clearInterval(timer);
@@ -614,11 +643,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 clearInterval(timer);
             } else {
                 timeLeft--;
-                const clock = document.querySelector('#timer p');
+                const clock = document.querySelector('#timer-tick');
                 const formattedTime = `0:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
                 clock.innerText = formattedTime;
                 if (timeLeft <= 6) {
                     clock.style.color = 'red';
+                } else {
+                    clock.style.color = '#121212';
                 }
             }
         }, 1000);
@@ -644,9 +675,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let submitted = false;
         bid.value = isNominator ? 1 : 0;
 
-
         startTimer(BIDDING_TIME);
-
 
         if (currentBidder.isAi) {
             return new Promise((resolve) => {
@@ -654,7 +683,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     currentBidder.placeBid(determineValue(currentBidder, id, isNominator));
                     submitted = true;
                     resolve();
-                }, 5000);
+                }, AI_WAIT * 1000);
                 return;
             });
         }

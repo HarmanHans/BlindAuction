@@ -1,0 +1,387 @@
+body {
+    background-color: #121212;
+    color: #f0f0f0;
+    margin: 0;
+}
+
+#auction-interface {
+
+}
+
+#top-banner {
+    padding: 2%;
+    background-color: #1f1f1f;
+    position: relative;
+    top: 0;
+    margin-bottom: 0;
+    min-width: 100vw;;
+}
+
+.nominee-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.timer {
+    font-size: 1.5rem;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    width: auto;
+    margin: 0;
+    background-color: #ffcc00;
+    text-align: center;
+    flex: 1;
+    color: #121212;
+    top: 0;
+}
+
+.rounding {
+    border-radius: 12px;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+}
+
+#timer, #nominated-player-display {
+    margin-left: 8%;
+}
+
+#timer {
+    width: 20%;
+}
+
+#nominated-player-display {
+    width: 80%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+#nominated-player-display h1 {
+    color: #f0f0f0;
+    margin: 0;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#nominated-player-display p {
+    color: #c9c9c9;
+    margin: 0;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#basic-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.basic-info .columns {
+    display: flex;
+    align-items: center;
+}
+
+.last-year-stats {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.last-year-stats p {
+    margin: 0;
+    color: #f0f0f0 !important;
+}
+
+.last-year-stats p strong {
+    font-weight: bold;
+    color:#f0f0f0;
+}
+
+#draft-notification {
+    background-color: #0a3964;
+    text-align: center;
+    font-weight: 650;
+    min-height: 32px;
+}
+
+#bidding-display {
+    margin-top: 20px;
+}
+
+.input {
+    border-radius: 4px;
+}
+
+.button {
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+#team-selections {
+    width: 90%;
+    margin: 20px auto 0;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 500px;
+    max-height: 525px;
+}
+
+.label {
+    color: #f0f0f0;
+    margin: 0 10px;
+}
+
+#show-roster-label, #show-stats-label {
+    color: #f0f0f0;
+    margin: 0 10px;
+    line-height: 34px;
+    vertical-align: middle;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.control {
+    margin-top: 5px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+#roster-container {
+    min-width: 95%;
+    max-width: 95%;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-height: 400px;
+}
+
+.table-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+.table-container {
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #2a2a2a;
+}
+
+#roster-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 95%;
+    box-sizing: border-box;
+    table-layout: fixed;
+    background-color: #1f1f1f;
+}
+
+#roster-table th,
+#roster-table td {
+    padding: 10px;
+    text-align: center;
+    width: 132px;
+    height: 60px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+#roster-table th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#roster-table td {
+    background-color: #1f1f1f;
+    color: #f0f0f0;
+}
+
+#roster-table td div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+#roster-table tbody tr:hover td {
+    background-color: #333333;
+}
+
+#table-body tr {
+    height: 40px;
+}
+
+#roster-table td div {
+    text-align: center;
+}
+
+#roster-table td strong {
+    color: #ffffff;
+    font-weight: bolder;
+}
+
+#roster-table td span {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#stats-container {
+    width: 100%;
+    max-width: 95%;
+    margin: 20px auto;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#cumulative-table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#cumulative-table th,
+#cumulative-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #444;
+}
+
+#cumulative-table th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#cumulative-table td {
+    background-color: #1f1f1f;
+    color: #f0f0f0;
+}
+
+#cumulative-table tbody tr:hover td {
+    background-color: #333333;
+}
+
+.player-cards {
+    margin: 20px auto;
+    max-width: 95%;
+}
+
+#player-stats-table {
+    width: 60%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #1f1f1f;
+    color: #f0f0f0;
+}
+
+#player-stats-table th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    padding: 10px;
+}
+
+#player-stats-table td {
+    padding: 10px;
+    text-align: center;
+    color: #ffffff; /* Ensures row text is white */
+}
+
+#player-stats-table tbody tr {
+    background-color: #1f1f1f;
+}
+
+#player-stats-table tbody tr:nth-child(even) {
+    background-color: #292929;
+}
+
+#player-stats-table tbody tr:hover {
+    background-color: #333333;
+}
+
+.nominate-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+.nominate-button:hover {
+    background-color: #0056b3;
+}

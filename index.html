@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Bids</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="other-styles.css">
 </head>
 <body>
 
     <div id="settings-form" class="form-container">
-        <h2>Setup Your Auction</h2>
+        <h2 class="is-4">Setup Your Auction</h2>
         <form id="auction-settings">
             <label for="league-size">League Size:</label>
             <select id="league-size" required>
@@ -41,53 +42,88 @@
         </form>
     </div>
 
-    <div id="team-selections" class="team-selections">
-        <div id="toggle-container">
-            <span id="show-roster-label">Show Roster</span>
-            <label class="switch">
-                <input type="checkbox" id="toggle-switch">
-                <span class="slider round"></span>
-            </label>
-            <span id="show-stats-label">Show Stats</span>
-        </div>
-
-        <div id="roster-container">
-            <table id="roster-table">
-                <thead>
-                    <tr id="table-header"></tr>
-                </thead>
-                <tbody id="table-body"></tbody>
-            </table>
-        </div>
-        <div id="stats-container" style="display: none;">
-            <table id="cumulative-table">
-                <thead>
-                    <tr id="stats-table-header"></tr>
-                </thead>
-                <tbody id="stats-table-body"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="container hidden" id="auction-interface">
-        <div id="nominee-display" class="nominee-display">
-            <div id="timer" class="timer">
-                <p></p>
+    <div class="hidden is-fullwidth" id="auction-interface">
+        <div id="top-banner" class="columns is-marginless is-mobile is-fullwidth">
+            <div id="nominee-display" class="nominee-display">
+                    <div id="timer" class="column timer rounding">
+                        <p id="timer-tick"></p>
+                    </div>
             </div>
-            <div id="current-participant" class="current-participant"></div>
-        </div>
-        <div id="nominated-player-display" class="nominated-player-display">
-            <h1></h1>
-            <p></p>
-            <div id="bidding-display" class="bidding-display">
-                <input type="number" id="bid-input" value="1" min="0" />
-                <button id="submit-bid">Submit</button>
+            <div id="nominated-player-display" class="nominated-player-display">
+                <div id="basic-info" class="columns basic-info">
+                    <div class="column">
+                        <h1 class="title has-text-weight-bold"></h1>
+                        <p class="subtitle"></p>
+                        <div class="last-year-stats"></div>
+                    </div>
+                </div>
+                <div id="bidding-display" class="bidding-display">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input type="number" id="bid-input" class="input" value="1" min="0" />
+                        </div>
+                        <div class="control">
+                            <button id="submit-bid" class="button is-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="draft-notification" class="draft-notification">
+        <div id="draft-notification" class="draft-notification is-flex is-align-items-center is-justify-content-center">
             Draft starting soon
         </div>
-        <div id="player-cards" class="player-cards"></div>
+
+        <div id="team-selections" class="team-selections">
+            <div id="toggle-container" class="field is-grouped is-grouped-centered">
+                <span id="show-roster-label" class="label">Show Roster</span>
+                <div class="control">
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-switch">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <span id="show-stats-label" class="label">Show Stats</span>
+            </div>
+    
+            <div id="roster-container" class="table-container">
+                <table id="roster-table" class="table is-striped is-hoverable is-fullwidth">
+                    <thead>
+                        <tr id="table-header"></tr>
+                    </thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+            <div id="stats-container" style="display: none;">
+                <table id="cumulative-table" class="table is-striped is-hoverable is-fullwidth">
+                    <thead>
+                        <tr id="stats-table-header"></tr>
+                    </thead>
+                    <tbody id="stats-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div id="player-cards" class="player-cards">
+            <table id="player-stats-table" class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Nominate</th>
+                        <th>Player</th>
+                        <th>Pos</th>
+                        <th>Team</th>
+                        <th>PPG</th>
+                        <th>APG</th>
+                        <th>RPG</th>
+                        <th>FG%</th>
+                        <th>FT%</th>
+                        <th>BPG</th>
+                        <th>SPG</th>
+                        <th>TOs</th>
+                    </tr>
+                </thead>
+                <tbody id="player-table-body"></tbody>
+            </table>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
