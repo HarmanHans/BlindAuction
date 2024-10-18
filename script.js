@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const NOMINATION_TIME = 20;
     const BIDDING_TIME = 20;
     const TOTAL_BUDGET = 200;
-    const AI_WAIT = 0.4;
+    const AI_WAIT = 1.4;
     const leagueSizeSelect = document.getElementById('league-size');
     const livePlayersSelect = document.getElementById('live-players');
     let leagueSize = 0;
@@ -225,8 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const total = leagueSize * ROSTER_SIZE;
 
 
-        document.getElementById('settings-form').classList.add('is-hidden');
-        document.getElementById('auction-interface').classList.remove('is-hidden');
+        document.getElementById('settings-form').classList.add('hidden');
+        document.getElementById('auction-interface').classList.remove('hidden');
 
         const participants = [];
         const realParticipants = Array.from({ length: realPlayersCount }, (_, i) => (new Participant(`Player ${i + 1}`)));

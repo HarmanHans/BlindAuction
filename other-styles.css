@@ -4,8 +4,37 @@ body {
     margin: 0;
 }
 
-#auction-interface {
+.hidden {
+    display: none !important;
+}
 
+.form-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f1f1f;
+    position: relative;
+}
+
+#auction-settings {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.button.is-primary {
+    background-color: #007bff;
+    border-color: transparent;
 }
 
 #top-banner {
