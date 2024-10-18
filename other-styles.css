@@ -359,7 +359,7 @@ input:checked + .slider:before {
 #player-stats-table td {
     padding: 10px;
     text-align: center;
-    color: #ffffff; /* Ensures row text is white */
+    color: #ffffff;
 }
 
 #player-stats-table tbody tr {
