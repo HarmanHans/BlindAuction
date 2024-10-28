@@ -1,1 +1,5 @@
 node_modules/
+upload.js
+convert.py
+batch-players.json
+config.js

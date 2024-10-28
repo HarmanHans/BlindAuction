@@ -9,12 +9,25 @@
  */
 
 let dataset;
+import config from './config.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('data.json')
+    console.log(`Fetching from: ${config.apiEndpoint}`);
+
+    console.time("Fetch Time");
+    fetch(`${config.apiEndpoint}`, {
+        method: 'GET',
+        headers: {
+            'x-api-key': `${config.apiKey}`,
+            'Content-Type': 'application/json',
+        },
+    })
         .then(response => response.json())
-        .then(players => {
+        .then(data => {
+            console.timeEnd("Fetch Time");
+            const players = JSON.parse(data.body);
             dataset = players;
+            console.log(players);
             const playerTableBody = document.getElementById('player-table-body');
             players.forEach(player => {
                 const row = document.createElement('tr');
